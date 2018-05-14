@@ -33,35 +33,14 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="yig-wh-Apw">
-                                <rect key="frame" x="307" y="54" width="52" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.85494251939999999" green="0.57742742960000004" blue="0.12899561870000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" image="steering_wheel">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="startJourneyWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V9E-P5-2Co"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AgP-zC-c2f">
-                                <rect key="frame" x="161" y="53" width="52" height="45"/>
+                                <rect key="frame" x="161" y="46" width="52" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.4244686936" green="0.56848889759999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="tintColor" red="0.85494251939999999" green="0.57742742960000004" blue="0.12899561870000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" image="directions"/>
+                                <state key="normal" image="show_route"/>
                                 <connections>
                                     <action selector="showRouteToUserWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lVk-5Z-HIV"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GvX-Rc-AeJ">
-                                <rect key="frame" x="231" y="54" width="53" height="46"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.64999595210000005" green="0.19657173850000001" blue="0.11201096050000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" red="0.85494251939999999" green="0.57742742960000004" blue="0.12899561870000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" image="map"/>
-                                <connections>
-                                    <action selector="changeMapTypeWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xtp-Y7-XnK"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jNs-iw-SBB">
@@ -72,29 +51,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Route" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ecV-CX-eOE">
-                                <rect key="frame" x="151" y="37" width="68" height="15"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.4244686936" green="0.56848889759999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Monitor Route" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3f-8a-LC8">
-                                <rect key="frame" x="292" y="29" width="83" height="30"/>
+                                <rect key="frame" x="221" y="29" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.85494251939999999" green="0.57742742960000004" blue="0.12899561870000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Map Style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WR5-9E-W4A">
-                                <rect key="frame" x="227" y="37" width="57" height="15"/>
+                                <rect key="frame" x="302" y="531" width="57" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.64999595210000005" green="0.19657173850000001" blue="0.11201096050000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Where to?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hVw-Qw-A7e">
-                                <rect key="frame" x="6" y="75" width="137" height="30"/>
+                                <rect key="frame" x="6" y="67" width="137" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" red="0.133466164" green="0.19163132469999999" blue="0.24534488339999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -102,24 +74,51 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Where from?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p4p-wh-JBz">
-                                <rect key="frame" x="6" y="37" width="137" height="30"/>
+                                <rect key="frame" x="6" y="29" width="137" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="w4c-OF-U8G">
+                                <rect key="frame" x="239" y="55" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="onTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="buttonClickedWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UjT-vc-Pyd"/>
+                                </connections>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kxj-bb-0nM">
+                                <rect key="frame" x="307" y="47" width="57" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="cross"/>
+                                <connections>
+                                    <action selector="resetButtonClickedWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EE2-Bf-wNo"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GvX-Rc-AeJ">
+                                <rect key="frame" x="313" y="547" width="34" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.85494251939999999" green="0.57742742960000004" blue="0.12899561870000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" image="map"/>
+                                <connections>
+                                    <action selector="changeMapTypeWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xtp-Y7-XnK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="destAdd" destination="hVw-Qw-A7e" id="Q9z-kV-0yh"/>
+                        <outlet property="lblMonitorRoute" destination="f3f-8a-LC8" id="2Ua-2t-onW"/>
                         <outlet property="lblRouteInfo" destination="eE3-rG-3My" id="Maa-Iq-o6h"/>
                         <outlet property="mapView" destination="CFu-Co-wsc" id="Xps-8l-yUA"/>
-                        <outlet property="searchRoute" destination="hVw-Qw-A7e" id="Q9z-kV-0yh"/>
+                        <outlet property="monitorRouteSwitch" destination="w4c-OF-U8G" id="RvU-Cm-9mS"/>
+                        <outlet property="resetMapButton" destination="kxj-bb-0nM" id="EZu-55-HYb"/>
                         <outlet property="showMap" destination="GvX-Rc-AeJ" id="Cd2-hx-QeV"/>
                         <outlet property="showRoute" destination="AgP-zC-c2f" id="VaL-Ss-OSJ"/>
                         <outlet property="sourceAdd" destination="p4p-wh-JBz" id="xt7-aL-MXl"/>
-                        <outlet property="startJourney" destination="yig-wh-Apw" id="EjC-J5-sDK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -128,8 +127,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="directions" width="25" height="25"/>
+        <image name="cross" width="29" height="29"/>
         <image name="map" width="25" height="25"/>
-        <image name="steering_wheel" width="25" height="25"/>
+        <image name="show_route" width="512" height="512"/>
     </resources>
 </document>
