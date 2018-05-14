@@ -24,10 +24,11 @@ class MapViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var showRoute: UIButton!
     @IBOutlet weak var startJourney: UIButton!
     @IBOutlet weak var searchRoute: UITextField!
+    @IBOutlet weak var sourceAdd: UITextField!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startJourney.isHidden = true
         searchRoute.delegate = self
         mapView.delegate = self
         locationManager.delegate = self
@@ -44,7 +45,6 @@ class MapViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
         return true
     }
-    
     private func setuplocationMarker(coordinate: CLLocationCoordinate2D) {
         locationMarker = GMSMarker(position: coordinate)
         locationMarker.map = mapView
@@ -96,7 +96,7 @@ class MapViewController: UIViewController, UITextFieldDelegate {
     
     private func showRouteDeviatedPopUp(_ coordinate: CLLocationCoordinate2D){
         let lat: String = String(format: "%f",coordinate.latitude)
-        let long = String(format: "%f",coordinate.longitude)
+        let long: String = String(format: "%f",coordinate.longitude)
         let alertController = UIAlertController(title: "You have devaited from the route",
                                                 message: "Current Location:" + lat + "," + long + "\n Do you want re-route?",preferredStyle: .alert)
         
@@ -104,20 +104,16 @@ class MapViewController: UIViewController, UITextFieldDelegate {
         alertController.addAction(cancelAction)
         
         let reRouteAction = UIAlertAction(title: "ReRoute", style: .default) {(action) in
-            let waypoint = self.userCurrentLocation
-            self.showRouteToUserInner(waypoints: [String]())
+            let positionString = lat + "," + long
+            self.showRouteToUserInner(waypoints: [positionString])
         }
         alertController.addAction(reRouteAction)
-        //        let openAction = UIAlertAction(title: "Show new route", style: .default) { (action) in
-        //            if let url = URL(string: UIApplicationOpenSettingsURLString) {
-        //                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        //            }
-        //        }
         self.present(alertController, animated: true, completion: nil)
     }
     
     private func shouldReRoute() -> Bool {
         let currentLocation: CLLocationCoordinate2D = userCurrentLocation.coordinate
+        //currentLocation.latitude += 0.001
         let routePath: GMSPath = routePolyline.path!
         let geodesic = true
         let tolerance: CLLocationDistance = 40
@@ -156,7 +152,7 @@ class MapViewController: UIViewController, UITextFieldDelegate {
     
     func showRouteToUserInner(waypoints : Array<String>) {
         self.destinationAddress = searchRoute.text!
-        self.sourceAddress = lblRouteInfo.text!
+        self.sourceAddress = sourceAdd.text!
         mapTasks.getDirections(origin: sourceAddress, destination: destinationAddress, waypoints: waypoints, travelMode: nil, completionHandler: { (status, success) -> Void in
             if success {
                 self.clearMapView()
@@ -173,6 +169,10 @@ class MapViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func startJourney(sender: AnyObject) {
         self.listenToGPSUpdate = !self.listenToGPSUpdate;
+        if(startJourney.backgroundColor ==  UIColor.orange){
+            startJourney.backgroundColor = UIColor.gray
+        }
+        
     }
 }
 
@@ -190,17 +190,17 @@ extension MapViewController: CLLocationManagerDelegate {
         guard let userCurrentLocation = locations.first  else {
             return
         }
-        mapView.camera = GMSCameraPosition(target: userCurrentLocation.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         self.userCurrentLocation = userCurrentLocation
         
         if(self.listenToGPSUpdate) {
-            if(self.shouldReRoute()) {
+            mapView.camera = GMSCameraPosition(target: userCurrentLocation.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+        
+            if(!self.shouldReRoute()) {
                 self.showRouteDeviatedPopUp(self.userCurrentLocation.coordinate)
-
             }
         }
         
-        locationManager.stopUpdatingLocation()
+        //locationManager.stopUpdatingLocation()
     }
 }
 

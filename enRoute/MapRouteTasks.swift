@@ -32,7 +32,16 @@ class MapRouteTasks: NSObject {
             if let destinationLocation = destination {
                 let encodedOriginString = originLocation.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
                 let encodedDestinationString = destinationLocation.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-                let encodedDirectionsURLString = baseURLDirections + "origin=" + encodedOriginString! + "&destination=" + encodedDestinationString!
+                let waypointString = waypoints.joined(separator: "|")
+                
+                var encodedDirectionsURLString = baseURLDirections
+                    + "origin=" + encodedOriginString!
+                    + "&destination=" + encodedDestinationString!
+                if(!waypointString.isEmpty) {
+                    let encodedWaypointString = waypointString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+                    encodedDirectionsURLString += "&waypoints=" + encodedWaypointString!
+                }
+                
                 let directionsURL = URL(string: encodedDirectionsURLString)
                 
                 DispatchQueue.main.async( execute: { () -> Void in
