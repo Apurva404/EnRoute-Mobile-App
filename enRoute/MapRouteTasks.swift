@@ -97,4 +97,8 @@ class MapRouteTasks: NSObject {
         
         totalDuration = "Duration: \(days) d, \(remainingHours) h, \(remainingMins) mins, \(remainingSecs) secs"
     }
+    
+    func reRoute(){
+        
+    }
 }

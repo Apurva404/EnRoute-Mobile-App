@@ -6,36 +6,45 @@
 import UIKit
 import GoogleMaps
 
-class MapViewController: UIViewController, UITextFieldDelegate{
+class MapViewController: UIViewController, UITextFieldDelegate {
     
     private let locationManager = CLLocationManager()
+    var userCurrentLocation : CLLocation!
+    var sourceAddress : String!
+    var destinationAddress : String!
     var locationMarker: GMSMarker!
     var originMarker: GMSMarker!
     var destinationMarker: GMSMarker!
     var routePolyline: GMSPolyline!
     var mapTasks = MapRouteTasks()
+    var listenToGPSUpdate : Bool!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var lblRouteInfo: UILabel!
     @IBOutlet weak var showMap: UIButton!
     @IBOutlet weak var showRoute: UIButton!
+    @IBOutlet weak var startJourney: UIButton!
     @IBOutlet weak var searchRoute: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startJourney.isHidden = true
         searchRoute.delegate = self
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        listenToGPSUpdate = false;
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     func textFieldShouldReturn(_ searchRoute: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
     }
+    
     private func setuplocationMarker(coordinate: CLLocationCoordinate2D) {
         locationMarker = GMSMarker(position: coordinate)
         locationMarker.map = mapView
@@ -53,13 +62,21 @@ class MapViewController: UIViewController, UITextFieldDelegate{
         destinationMarker.icon = GMSMarker.markerImage(with: UIColor.red)
         destinationMarker.title = self.mapTasks.destinationAddress
     }
+    
     private func drawRoute() {
-        //let route = mapTasks.overviewPolyline["points"] as String
+        setuplocationMarker(coordinate: userCurrentLocation.coordinate)
         let route = mapTasks.overviewPolyline["points"] as! String
         let path: GMSPath = GMSPath(fromEncodedPath: route)!
         routePolyline = GMSPolyline(path: path)
         routePolyline.map = mapView
     }
+    
+    private func clearMapView(){
+        mapView.clear()
+        mapView.camera = GMSCameraPosition(target: userCurrentLocation.coordinate, zoom: 20, bearing: 0, viewingAngle: 0)
+        setuplocationMarker(coordinate: userCurrentLocation.coordinate)
+    }
+    
     private func displayRouteInfo() {
         self.lblRouteInfo.text = mapTasks.totalDuration
     }
@@ -75,8 +92,38 @@ class MapViewController: UIViewController, UITextFieldDelegate{
                 self.view.layoutIfNeeded()
             }
         }
-
     }
+    
+    private func showRouteDeviatedPopUp(_ coordinate: CLLocationCoordinate2D){
+        let lat: String = String(format: "%f",coordinate.latitude)
+        let long = String(format: "%f",coordinate.longitude)
+        let alertController = UIAlertController(title: "You have devaited from the route",
+                                                message: "Current Location:" + lat + "," + long + "\n Do you want re-route?",preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let reRouteAction = UIAlertAction(title: "ReRoute", style: .default) {(action) in
+            let waypoint = self.userCurrentLocation
+            self.showRouteToUserInner(waypoints: [String]())
+        }
+        alertController.addAction(reRouteAction)
+        //        let openAction = UIAlertAction(title: "Show new route", style: .default) { (action) in
+        //            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+        //                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        //            }
+        //        }
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func shouldReRoute() -> Bool {
+        let currentLocation: CLLocationCoordinate2D = userCurrentLocation.coordinate
+        let routePath: GMSPath = routePolyline.path!
+        let geodesic = true
+        let tolerance: CLLocationDistance = 40
+        return GMSGeometryIsLocationOnPathTolerance(currentLocation, routePath, geodesic, tolerance)
+    }
+    
     @IBAction func changeMapType(sender: AnyObject) {
         let actionSheet = UIAlertController(title: "Map Types", message: "Select map type:", preferredStyle: UIAlertControllerStyle.actionSheet)
         
@@ -104,20 +151,28 @@ class MapViewController: UIViewController, UITextFieldDelegate{
     }
     
     @IBAction func showRouteToUser(sender: AnyObject) {
-        let destination: String = searchRoute.text!
-        let source : String = lblRouteInfo.text!
-        print(source + "/n")
-        print(destination + "/n")
-        mapTasks.getDirections(origin: source, destination: destination, waypoints: nil, travelMode: nil, completionHandler: { (status, success) -> Void in
+        showRouteToUserInner(waypoints: [String]())
+    }
+    
+    func showRouteToUserInner(waypoints : Array<String>) {
+        self.destinationAddress = searchRoute.text!
+        self.sourceAddress = lblRouteInfo.text!
+        mapTasks.getDirections(origin: sourceAddress, destination: destinationAddress, waypoints: waypoints, travelMode: nil, completionHandler: { (status, success) -> Void in
             if success {
+                self.clearMapView()
                 self.configureMapAndMarkersForRoute()
                 self.drawRoute()
                 self.displayRouteInfo()
+                self.startJourney.isHidden = false
             }
             else {
                 print(status)
             }
         })
+    }
+    
+    @IBAction func startJourney(sender: AnyObject) {
+        self.listenToGPSUpdate = !self.listenToGPSUpdate;
     }
 }
 
@@ -130,15 +185,24 @@ extension MapViewController: CLLocationManagerDelegate {
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
     }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else {
+        guard let userCurrentLocation = locations.first  else {
             return
         }
-        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-        setuplocationMarker(coordinate: location.coordinate)
+        mapView.camera = GMSCameraPosition(target: userCurrentLocation.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+        self.userCurrentLocation = userCurrentLocation
+        
+        if(self.listenToGPSUpdate) {
+            if(self.shouldReRoute()) {
+                self.showRouteDeviatedPopUp(self.userCurrentLocation.coordinate)
+
+            }
+        }
+        
         locationManager.stopUpdatingLocation()
     }
- }
+}
 
 extension MapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
